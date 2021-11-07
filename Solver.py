@@ -286,7 +286,24 @@ def solver(fptr):
                 count += 1
             tracker = tracker + count
     # print(spaces_open)
-
+    permutations = list(multiset_permutations(blockspots))
+    spaces_open = laser_board_reader(filename=filename + '.bff')
+    legth = len(grid)
+    width = len(grid[0])
+    for possible_grid_i in permutations:
+        possible_grid = copy.deepcopy(grid)
+        for m in range(length):
+            for n in range(width) == 'o':
+                if possible_grid[1][w] == 'o':
+                    possible_grid[1][w] = ossible_grid_i.pop(0)
+        if laser_runner(possible_grid,laser_origin, targetPos):
+            print("The solution is founded")
+            save_grid(possible_grid, name="%s_slution.png" %filename)
+            break
+        if laser_runner(possible_grid,laser_origin, targetPos) == False:
+            print("No solution for it!")
+            break
+    
 if __name__ == '__main__':
     solver('mad_4.bff')
     # print(fptr_lines)
