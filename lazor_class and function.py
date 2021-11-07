@@ -87,7 +87,7 @@ class Block:
     '''
     This class is to define a bolck in the grid.
     There are four types of blocks, O or X
-    or A(means reflex), B(means opaque), C(means reflect)
+    or A(means reflect), B(means opaque), C(means refract)
     '''
 
     def __init__(self, block_positions, type):
