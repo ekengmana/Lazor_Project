@@ -38,7 +38,7 @@ class Block:
                         contains list of x and y coordinates
                         string represent the type of block on the board
                 pos:*tuple*
-                        the current the location of the laser
+                        the current the location of the lazor
         **result**
                 True is not on the boundary and false if on the boundary
         '''
@@ -48,19 +48,19 @@ class Block:
         else:
             return True
 
-    def laser(self, lasor_position, lasor_dir):
+    def lazor(self, lazor_position, lazor_dir):
         '''
-            This function is to update the position and direction of laser
-            depending on the types of blocks which interact with the laser
-            lasor_position refers to the coordinate of lasor in the grid
-            lasor_dir refers to the driection of the laser.
+            This function is to update the position and direction of lazor
+            depending on the types of blocks which interact with the lazor
+            lazor_position refers to the coordinate of lazor in the grid
+            lazor_dir refers to the driection of the lazor.
 
             **parameters**
                     self:*object*
-                    lasor_position:*tuple of 2 int*
-                            The coordinates of lasor in the grid
-                    lasor_dir:*tuple of 2 int*
-                            The direction in which lasor is going.
+                    lazor_position:*tuple of 2 int*
+                            The coordinates of lazor in the grid
+                    lazor_dir:*tuple of 2 int*
+                            The direction in which lazor is going.
                             Only 4 possible dirction(1,1),(1,-1),(-1,1),(-1,-1)
 
             Result: we can get new_direction from this function.
@@ -71,16 +71,16 @@ class Block:
             '''
 
         # Highlight:
-        # The postion of laser is constitued by x and y
+        # The postion of lazor is constitued by x and y
         # and either x or y is odd and the other is even.
-        # if laser start point is (odd, odd) or (even, even),
-        # then the lasor can never change dirction.
+        # if lazor start point is (odd, odd) or (even, even),
+        # then the lazor can never change dirction.
 
-        # if the x of lasor point is odd
-        if lasor_position[0] % 2 == 1:
-            # if the block_type is reflect, the new direction is lasor_y * -1
+        # if the x of lazor point is odd
+        if lazor_position[0] % 2 == 1:
+            # if the block_type is reflect, the new direction is lazor_y * -1
             if self.type == 'A':
-                new_direction = [lasor_dir[0], lasor_dir[1] * -1]
+                new_direction = [lazor_dir[0], lazor_dir[1] * -1]
             # if the block_type is aborbed, then no new direction
             elif self.type == 'B':
                 new_direction = []
@@ -88,28 +88,28 @@ class Block:
             # new_dirction1 is the original direction
             # new_dirction2 is same as reflect direction
             else:
-                new_direction1 = lasor_dir
-                new_direction2 = (lasor_dir[0], lasor_dir[1] * -1)
+                new_direction1 = lazor_dir
+                new_direction2 = (lazor_dir[0], lazor_dir[1] * -1)
                 new_direction = [new_direction1, new_direction2]
-        # if the x of lasor point is even (y is odd)
-        if lasor_position[0] % 2 == 0:
-            # if the block_type is reflect, the new direction is lasor_x * -1
+        # if the x of lazor point is even (y is odd)
+        if lazor_position[0] % 2 == 0:
+            # if the block_type is reflect, the new direction is lazor_x * -1
             if self.type == 'A':
-                new_direction = [(lasor_dir[0] * -1, lasor_dir[1])]
+                new_direction = [(lazor_dir[0] * -1, lazor_dir[1])]
             elif self.type == 'B':
                 new_direction = []
             else:
-                new_direction1 = lasor_dir
-                new_direction2 = [(lasor_dir[0] * -1, lasor_dir[1])]
+                new_direction1 = lazor_dir
+                new_direction2 = [(lazor_dir[0] * -1, lazor_dir[1])]
                 new_direction = [new_direction1, new_direction2]
 
-        def laser_check(board, curr_pos, curr_dirc):
+        def lazor_check(board, curr_pos, curr_dirc):
             '''
-            This laser check function is to check whether laser
-            interacts with a block and return the new direction of laser
+            This lazor check function is to check whether lazor
+            interacts with a block and return the new direction of lazor
 
             Guildlines:
-            check the lasor position and if it hits a block,
+            check the lazor position and if it hits a block,
             then change direction
             otherwise continue in the same direction
 
@@ -117,13 +117,13 @@ class Block:
             board:*list, list, string*
                     A list of list holds all elements on board
             curr_pos: *tuple of 2 int*
-                    The current position of laser
+                    The current position of lazor
             curr_dirc: *tuple of 2 int*
-                    The current dirction of laser is going
+                    The current dirction of lazor is going
 
             *result*
             new_dir: *list*
-                    a list that hold new directions laser will be going
+                    a list that hold new directions lazor will be going
             '''
 
             x, y = curr_pos[0], curr_pos[1]
@@ -131,7 +131,7 @@ class Block:
             # check upper and below position if x is odd
             if x % 2 == 1:
                 # borad[x][y+curr_dirc[1]]means
-                # the upper/lower position of the laser point
+                # the upper/lower position of the lazor point
                 # check whether this position is block
                 # if this position is block, then change direction;
                 # if not, new_dir stay the same
@@ -140,17 +140,17 @@ class Block:
                         board[x][y + curr_dirc[1]] == 'C':
                     block = Block(
                         (x, y + curr_dirc[1]), board[x][y + curr_dirc[1]])
-                    new_dir = block.laser(curr_pos, curr_dirc)
+                    new_dir = block.lazor(curr_pos, curr_dirc)
                 else:
                     new_dir = copy.copy([curr_dirc])
-            # check left and right of lasor position if x is even
+            # check left and right of lazor position if x is even
             if x % 2 == 0:
                 if board[x + curr_dirc[0]][y] == 'A' or \
                         board[x + curr_dirc[0]][y] == 'B' or \
                         board[x + curr_dirc[0]][y] == 'C':
                     block = Block(
                         (x + curr_dirc[0], y), board[x + curr_dirc[0][y]])
-                    new_dir = block.laser(curr_pos, curr_dirc)
+                    new_dir = block.lazor(curr_pos, curr_dirc)
                 else:
                     new_dir = copy.copy([curr_dirc])
             return new_dir
