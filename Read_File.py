@@ -3,7 +3,9 @@
 # then split the parts into the grid, block types/amounts
 # lazor origins/angles, and lazor points to cross
 
-
+### Credit to Kuan-Lin and his group. Their former project was found on github at 
+### https://github.com/charliecharlie29/SoftwareCarpentryLazorProject
+### and the files acted as a guide to help us.
 
 def split_by_line(fptr):
     '''
@@ -130,6 +132,7 @@ def identify_lazor_points(fptr_lines):
             # add the coordinates to the list
     return lazor_point
 
+
 def create_grid(grid):
     '''
     Use the lines in grid to create a board
@@ -152,30 +155,34 @@ def create_grid(grid):
         for letter in range(len(line)):
             # print(len(line))
             # print(line[letter])
-            if letter == 0:
-                new_grid.append('s')
-            elif line[letter] == ' ':
+            if line[letter] == ' ':
                 continue
             elif line[letter] == 'o':
                 new_grid.append(line[letter])
-                new_grid.append('s')
             elif line[letter] == 'x':
                 new_grid.append(line[letter])
-                new_grid.append('s')
             elif line[letter] == 'A':
                 new_grid.append(line[letter])
-                new_grid.append('s')
             elif line[letter] == 'B':
                 new_grid.append(line[letter])
-                new_grid.append('s')
             elif line[letter] == 'C':
                 new_grid.append(line[letter])
-                new_grid.append('s')
-            # print(new_grid)
         format_grid.append(new_grid)
+        # create a grid with the information from the .bff file
         count += 1
+    gridx = 2 * len(format_grid[0]) + 1
+    gridy = 2 * len(format_grid) + 1
+    # obtain the length and width of the actual grid
+    format_grid_2 = [['x' for x in range(gridx)] for y in range(gridy)]
+    # a reformatted grid to include the spaces not available for blocks
+    # place 'x' in every spot
+    for i in range(0, len(format_grid)):
+        for j in range(0, len(format_grid[0])):
+            format_grid_2[2 * j + 1][2 * i + 1] = format_grid[i][j]
+            # for every 2 blocks, place the information of the original
+            # formatted grid to create a full grid, replacing certain 'x'
     # print(format_grid)
-    return format_grid
+    return format_grid_2
 
 
 def identify_board(fptr_lines):
@@ -228,6 +235,7 @@ def open_file(name):
     fptr_lines = split_by_line(fptr)
     # create a list of strings of the file's components
     return fptr_lines
+
 
 if __name__ == '__main__':
     fptr_lines = open_file('mad_7.bff')
