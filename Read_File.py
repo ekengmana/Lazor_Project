@@ -137,7 +137,7 @@ def create_grid(grid):
         grid: *list, str*
             a list of strings containing information about the board
     **Returns**
-        new_grid: *list, str*
+        format_grid: *list, list, str*
             a new grid simplified to only contain 
             'x', 'o', 'A', 'B', and 'C'.
             spacings between them are just 's'
