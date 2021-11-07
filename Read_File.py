@@ -59,10 +59,9 @@ def identify_blocks(fptr_lines):
         if 'L' in fptr_lines[i]:
             # reached the end of blocks listed
             break
-        elif line[0] == 'A' or line[0] == 'B' or line[0] == 'C':
-            # spaces account for the A's in "GRID START"
-            # print(fptr_lines[i])
-            # line = str(fptr_lines[i])
+        elif (line[0] == 'A' or line[0] == 'B' or line[0] == 'C') and 'o' not in line:
+            # accounts for letters in "GRID START"
+            # the 'and' prevents an error with 'yarn_5.bff
             block_type.append(line[0])
             # block types in index
             block_amount.append(int(line[2]))
