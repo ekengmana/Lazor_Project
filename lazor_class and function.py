@@ -5,6 +5,83 @@ from PIL import Image
 from itertools import *
 from sympy.utilities.iterables import multiset_permutations
 
+def get_colors():
+    '''
+    In this function, we are going to color the map by using the RBG number.
+    The result will be returned to the RBG of each kind of block.
+    Credit: this function is modified with get_color function
+    in maze generation code in weekly challenge7.
+    '''
+    return {
+        'x': (20, 20, 20),
+        'A': (255, 255, 255),
+        'o': (50, 50, 50),
+        'B': (0, 0, 0),
+        'C': (150, 150, 150), }
+
+
+def grid(grid, name="grid"):
+    '''
+    This fucntion is to save a grid to a file.
+    Credit: This function is modified from save_maze function
+    in weekly challenge7.
+    **parameters**
+        grid: *list, list, str*
+            A list of lists, holding strings specifing the different aspects.
+        name:*str, optional*
+            The name of the grid.png file to save.
+    '''
+    # BlockSize is the amount of pixels of
+    # each broader(BlockSize1) or block(BlockSize2)
+    BlockSize1 = 5
+    BlockSize2 = 30
+    nBlock_x = len(grid)
+    nBlock_y = len(grid[0])
+    num_block_x = (nBlock_x - 1) / 2
+    num_broader_x = (nBlock_x - 1) / 2 + 1
+    dimx = num_block_x * BlockSize2 + num_broader_x * BlockSize1
+    num_block_y = (nBlock_y - 1) / 2
+    num_broader_y = (nBlock_y - 1) / 2 + 1
+    dimy = num_block_y * BlockSize2 + num_broader_y * BlockSize1
+    colors = get_colors()
+
+    # Verify that all values in the grid are valid colors.
+    ERR_MSG = "Error, invalid grid value found!"
+    assert all([x in colors.keys() for row in grid for x in row]), ERR_MSG
+
+    img = Image.new("RGB", (dimx, dimy), color=0)
+
+    # Parse "grid" into pixels
+    # The broader area is thin line while the block area is a block.
+    # Then assign the color of each areas using putpixel
+    for jy in range(nBlock_y):  # jy is y corrodinate of grid, similar with jx.
+        for jx in range(nBlock_x):
+            if jy % 2 == 0:  # jy is even
+                y = (jy / 2) * (BlockSize1 + BlockSize2)
+                y_range = BlockSize1
+                if jx % 2 == 0:  # (even, even)
+                    x = (jx / 2) * (BlockSize1 + BlockSize2)
+                    x_range = BlockSize1
+                else:  # (odd, even)
+                    x = ((jx - 1) / 2) * (BlockSize1 + BlockSize2)
+                    x_range = BlockSize2
+            else:  # (, odd)
+                y = ((jy + 1) / 2) * (BlockSize1 + BlockSize2)
+                y_range = BlockSize2
+                if jx % 2 == 0:  # (even, odd)
+                    x = (jx / 2) * (BlockSize1 + BlockSize2)
+                    x_range = BlockSize1
+                else:  # (odd, odd)
+                    x = ((jx + 1) / 2) * (BlockSize1 + BlockSize2)
+                    x_range = BlockSize2
+            # Assign color to the block
+            for i in range(x_range):
+                for j in range(y_range):
+                    img.putpixel((x + i, y + j), colors[grid[jx][jy]])
+    if not name.endswith(".png"):
+        name += "_solution.png"
+    img.save("%s" % name)
+
 
 class Block:
     '''
