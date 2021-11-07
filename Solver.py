@@ -62,10 +62,9 @@ def identify_blocks(fptr_lines):
         if 'L' in fptr_lines[i]:
             # reached the end of blocks listed
             break
-        elif line[0] == 'A' or line[0] == 'B' or line[0] == 'C':
-            # spaces account for the A's in "GRID START"
-            # print(fptr_lines[i])
-            # line = str(fptr_lines[i])
+        elif (line[0] == 'A' or line[0] == 'B' or line[0] == 'C') and 'o' not in line:
+            # accounts for letters in "GRID START"
+            # the 'and' prevents an error with 'yarn_5.bff
             block_type.append(line[0])
             # block types in index
             block_amount.append(int(line[2]))
@@ -286,9 +285,9 @@ def solver(fptr):
                 count += 1
             tracker = tracker + count
     # print(spaces_open)
-    permutations = list(multiset_permutations(blockspots))
-    spaces_open = laser_board_reader(filename=filename + '.bff')
-    legth = len(grid)
+    permutations = list(multiset_permutations(spaces_open))
+    # spaces_open = laser_board_reader(filename=filename + '.bff')
+    length = len(grid)
     width = len(grid[0])
     for possible_grid_i in permutations:
         possible_grid = copy.deepcopy(grid)
