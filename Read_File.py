@@ -170,8 +170,9 @@ def create_grid(grid):
         format_grid.append(new_grid)
         # create a grid with the information from the .bff file
         count += 1
-    gridx = 2 * len(format_grid[0]) + 1
-    gridy = 2 * len(format_grid) + 1
+    print(format_grid)
+    gridx = 2 * len(format_grid) + 1
+    gridy = 2 * len(format_grid[0]) + 1
     # obtain the length and width of the actual grid
     format_grid_2 = [['x' for x in range(gridx)] for y in range(gridy)]
     # a reformatted grid to include the spaces not available for blocks
