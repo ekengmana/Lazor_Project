@@ -114,19 +114,22 @@ def save_grid(grid, targets, origins, lazor_pos_list, name="grid"):
     # print(origins[0][0])
     # print([origins[0][0],lazor_pos_list[0][1][0]])
     # print(lazor_pos_list[0][1][0][0]+1)
-    # print(lazor_pos_list)
-    for i in range(len(lazor_pos_list[0]) - 2):
+    print(lazor_pos_list[0])
+
+    for i in range(len(lazor_pos_list)):
+        print(lazor_pos_list[i])
+        for j in range(len(lazor_pos_list[i]) - 2):
         # draw the path of the lazor(s) in the board
-        x1 = lazor_pos_list[0][i][0][0] * \
-            (BlockSize1 + BlockSize2) / 2 + circle_size / 4
-        y1 = lazor_pos_list[0][i][0][1] * \
-            (BlockSize1 + BlockSize2) / 2 + circle_size / 4
-        x2 = lazor_pos_list[0][i + 1][0][0] * \
-            (BlockSize1 + BlockSize2) / 2 + circle_size / 4
-        y2 = lazor_pos_list[0][i + 1][0][1] * \
-            (BlockSize1 + BlockSize2) / 2 + circle_size / 4
-        # print(x1,y1,x2,y2)
-        draw.line([(x1, y1), (x2, y2)], fill=(255, 0, 0), width=2)
+            x1 = lazor_pos_list[i][j][0][0] * \
+                (BlockSize1 + BlockSize2) / 2 + circle_size / 4
+            y1 = lazor_pos_list[i][j][0][1] * \
+                (BlockSize1 + BlockSize2) / 2 + circle_size / 4
+            x2 = lazor_pos_list[i][j + 1][0][0] * \
+                (BlockSize1 + BlockSize2) / 2 + circle_size / 4
+            y2 = lazor_pos_list[i][j + 1][0][1] * \
+                (BlockSize1 + BlockSize2) / 2 + circle_size / 4
+            # print(x1,y1,x2,y2)
+            draw.line([(x1, y1), (x2, y2)], fill=(255, 0, 0), width=2)
     for i in range(len(targets)):
             # draw the lazor targets for the lazor to pass through
             draw.ellipse((int((targets[i][0] * (BlockSize1 + BlockSize2) / 2)),
@@ -694,6 +697,7 @@ def solver(fptr):
                     possible_grid[l][w] = possible_solution.pop(0)
         result, path = lazor_go(possible_grid, lazor_start, lazor_points)
         if result == True:
+            # print(path)
             print("The solution is founded")
             save_grid(possible_grid, lazor_points, lazor_start, path,
                       name="%s_solution.png" % filename)
@@ -706,12 +710,12 @@ def solver(fptr):
 
 if __name__ == '__main__':
     start = time.time()
-    solver('mad_1.bff')
-    solver('mad_4.bff')
+    # solver('mad_1.bff')
+    # solver('mad_4.bff')
     solver('mad_7.bff')
-    solver('numbered_6.bff')
-    solver('showstopper_4.bff')
-    solver('tiny_5.bff')
-    solver('yarn_5.bff')
+    # solver('numbered_6.bff')
+    # solver('showstopper_4.bff')
+    # solver('tiny_5.bff')
+    # solver('yarn_5.bff')
     end = time.time()
     print('solving all puzzles took %f seconds' % (end - start))
