@@ -6,3 +6,5 @@ The project uses a permutation method to solve the puzzles that was originally f
 In our project, we modified how to read in the files by creating separate functions each dedicated for reading sections of the .bff file. In addition, created a separate Lazor class to be the source of lazor positions and directions.
 
 Our project elaborated further on the readability of the output file by providing an image not only of the block positions, but also a trace of the lazors in the puzzle as well as the points they are crossing over. 
+
+![Here is our timetable](img/timetable.png)
